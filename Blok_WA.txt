@@ -1,0 +1,24 @@
+Block WhatsApp with "Layer 7" or "Content" or "TLS" - MikroTik Script RouterOS
+
+How to Block WhatsApp with "Layer 7" or "Content" or "TLS"
+
+Block WhatsApp With "Layer-7"
+
+/ip firewall layer7-protocol
+add name=WhatsApp regexp="^.+(whatsapp.com).*\$"
+/ip firewall filter
+add action=drop chain=forward layer7-protocol=WhatsApp
+
+
+Block WhatsApp With "Content"
+
+/ip firewall filter
+add action=drop chain=forward content="whatsapp.com" 
+add action=drop chain=forward content=".whatsapp."
+
+
+Block WhatsApp With "TLS"
+
+/ip firewall filter
+add action=drop chain=forward protocol=tcp tls-host="whatsapp.com"
+add action=drop chain=forward protocol=tcp tls-host="*.whatsapp.*"
