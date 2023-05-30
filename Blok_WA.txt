@@ -1,3 +1,5 @@
+Author
+@ga_tech
 Block WhatsApp with "Layer 7" or "Content" or "TLS" - MikroTik Script RouterOS
 
 How to Block WhatsApp with "Layer 7" or "Content" or "TLS"
