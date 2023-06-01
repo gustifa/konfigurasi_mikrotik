@@ -1,0 +1,15 @@
+/ip firewall raw
+#List IP Address Mobile Legend
+add chain=prerouting protocol=tcp dst-port=30104,30021,30071,30220 action=add-dst-to-address-list address-list=Game comment=ML address-list-timeout=none-static
+add chain=prerouting protocol=udp dst-port=9992 action=add-dst-to-address-list address-list=Game comment=ML address-list-timeout=none-static
+#List IP Address PUBG
+add chain=prerouting protocol=tcp dst-port=3013,20371,15692,17500,8088,8086 action=add-dst-to-address-list address-list=Game comment=PUBG address-list-timeout=none-static
+add chain=prerouting protocol=udp dst-port=9030,17000 action=add-dst-to-address-list address-list=Game comment=PUBG address-list-timeout=none-static
+#List IP Address Free Fire
+add chain=prerouting protocol=tcp dst-port=39779,39698,39003 action=add-dst-to-address-list address-list=Game comment=FF address-list-timeout=none-static
+add chain=prerouting protocol=udp dst-port=10002,10000-10007 action=add-dst-to-address-list address-list=Game comment=FF address-list-timeout=none-static
+
+
+/ip firewall raw
+#BLOK GAME ONLINE
+add chain=prerouting action=drop src-address=172.16.5.0/24 dst-address-list=Game comment="Block Game"
