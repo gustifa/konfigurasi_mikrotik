@@ -1,15 +1,11 @@
+#Settingan Address-list
+/ip firewall address-list
+add address=madrasahsumbar.net list=Ujian
+add address=10.70.70.246 list=siswa_ujian
+add address=10.70.70.249 list=siswa_ujian
+
+#Settingan Firewall filter
 /ip firewall filter
-add action=passthrough chain=unused-hs-chain comment="place hotspot rules here"
-add action=drop chain=forward dst-address-list=youtube src-address=\
-    10.70.70.0/24 src-address-list=!Kecuali
-add action=drop chain=forward dst-address-list=tiktok src-address=10.70.70.0/24 \
-    src-address-list=!Kecuali
-add action=drop chain=forward dst-address-list=youtube src-address=\
-    10.70.70.0/24 src-address-list=!Kecuali
-add action=drop chain=forward dst-address-list=instagram src-address=\
-    10.70.70.0/24 src-address-list=!Kecuali
-add action=drop chain=forward dst-address-list=whatsapp src-address=\
-    10.70.70.0/24 src-address-list=!Kecuali
 add action=accept chain=forward dst-address-list=Ujian dst-port=80,443 \
     protocol=tcp src-address=10.70.70.0/24
-
+add action=drop chain=forward src-address=10.70.70.0/24
