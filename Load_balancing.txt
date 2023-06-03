@@ -1,0 +1,27 @@
+#Settingan Mangle
+/ip firewall mangle
+add action=mark-connection chain=input in-interface="Ether5 - Astinet" new-connection-mark=koneksi-Astinet passthrough=yes
+add action=mark-connection chain=input in-interface=Indihome new-connection-mark=koneksi-IDH passthrough=yes
+add action=mark-routing chain=output connection-mark=koneksi-Astinet new-routing-mark=route-Astinet passthrough=no
+add action=mark-routing chain=output connection-mark=koneksi-IDH new-routing-mark=route-IDH passthrough=no
+add action=mark-connection chain=prerouting dst-address-list=!isp+client dst-address-type=!local new-connection-mark=koneksi-Astinet passthrough=yes per-connection-classifier=\
+    both-addresses-and-ports:2/0 src-address-list=isp+client
+add action=mark-connection chain=prerouting dst-address-list=!isp+client dst-address-type=!local new-connection-mark=koneksi-IDH passthrough=yes per-connection-classifier=\
+    both-addresses-and-ports:2/1 src-address-list=isp+client
+add action=mark-routing chain=prerouting connection-mark=koneksi-Astinet dst-address-list=!isp+client new-routing-mark=route-Astinet passthrough=yes src-address-list=isp+client
+add action=mark-routing chain=prerouting connection-mark=koneksi-IDH dst-address-list=!isp+client new-routing-mark=route-IDH passthrough=yes src-address-list=isp+client
+add action=mark-connection chain=input disabled=yes in-interface=1.IN new-connection-mark=koneksi-Icon passthrough=yes
+add action=mark-routing chain=output connection-mark=koneksi-Icon disabled=yes new-routing-mark=route-Icon passthrough=no
+add action=mark-connection chain=prerouting disabled=yes dst-address-list=!isp+client dst-address-type=!local new-connection-mark=koneksi-Icon passthrough=yes \
+    per-connection-classifier=both-addresses-and-ports:2/0 src-address-list=isp+client
+add action=mark-routing chain=prerouting connection-mark=koneksi-Icon disabled=yes dst-address-list=!isp+client new-routing-mark=route-Icon passthrough=yes src-address-list=isp+client
+add action=accept chain=prerouting disabled=yes dst-address-list=isp+client
+
+#Settingan Routes
+/ip route
+add check-gateway=ping distance=1 gateway=36.64.100.62 routing-mark=route-Astinet
+add check-gateway=ping distance=1 gateway=172.16.1.1 routing-mark=route-IDH
+add distance=1 gateway=36.64.100.62
+add distance=2 gateway=172.16.1.1
+add disabled=yes distance=1 gateway=172.16.7.1
+
