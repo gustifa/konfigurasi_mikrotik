@@ -6,7 +6,7 @@ add chain=prerouting protocol=udp dst-port=9992 action=add-dst-to-address-list a
 add chain=prerouting protocol=tcp dst-port=3013,20371,15692,17500,8088,8086 action=add-dst-to-address-list address-list=Game comment=PUBG address-list-timeout=none-static
 add chain=prerouting protocol=udp dst-port=9030,17000 action=add-dst-to-address-list address-list=Game comment=PUBG address-list-timeout=none-static
 #List IP Address Free Fire
-add chain=prerouting protocol=tcp dst-port=39779,39698,39003 action=add-dst-to-address-list address-list=Game comment=FF address-list-timeout=none-static
+add chain=prerouting protocol=tcp dst-port=39779,39698,39003,39800 action=add-dst-to-address-list address-list=Game comment=FF address-list-timeout=none-static
 add chain=prerouting protocol=udp dst-port=10002,10000-10007 action=add-dst-to-address-list address-list=Game comment=FF address-list-timeout=none-static
 
 
