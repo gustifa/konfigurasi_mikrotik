@@ -1,0 +1,43 @@
+:local parent [/queue simple find name=HOTSPOT_KANTOR]
+:local network "172.16.3.0/24"
+:if ([:len $parent] = 0) do={/queue simple add name=HOTSPOT_KANTOR max-limit=70M/70M target="$network" packet-marks=Bypass-LAN}
+:local queueName "Client-$leaseActMAC";
+:if ($leaseBound = "1") do={
+/queue simple add name=$queueName target=($leaseActIP . "/32") limit-at=2M/4M max-limit=4M/6M burst-limit=6M/10M burst-threshold=3M/4M burst-time=8/8 parent=HOTSPOT_KANTOR packet-marks=Bypass-LAN comment=[/ip dhcp-server lease get [find where active-mac-address=$leaseActMAC && active-address=$leaseActIP] host-name];
+} else={
+/queue simple remove $queueName
+}
+
+
+//Stakeholder
+:local parent [/queue simple find name=WAKA]
+:local network "172.16.4.0/24"
+:if ([:len $parent] = 0) do={/queue simple add name=WAKA max-limit=70M/70M target="$network" packet-marks=Bypass-LAN}
+:local queueName "Client-$leaseActMAC";
+:if ($leaseBound = "1") do={
+/queue simple add name=$queueName target=($leaseActIP . "/32") limit-at=2M/4M max-limit=4M/6M burst-limit=6M/10M burst-threshold=3M/4M burst-time=8/8 parent=WAKA packet-marks=Bypass-LAN comment=[/ip dhcp-server lease get [find where active-mac-address=$leaseActMAC && active-address=$leaseActIP] host-name];
+} else={
+/queue simple remove $queueName
+}
+
+//TAV
+:local parent [/queue simple find name=TAV]
+:local network "172.16.5.0/24"
+:if ([:len $parent] = 0) do={/queue simple add name=TAV max-limit=100M/100M target="$network" packet-marks=Bypass-LAN}
+:local queueName "Client-$leaseActMAC";
+:if ($leaseBound = "1") do={
+/queue simple add name=$queueName target=($leaseActIP . "/32") limit-at=2M/4M max-limit=4M/6M burst-limit=6M/10M burst-threshold=3M/4M burst-time=8/8 parent=TAV packet-marks=Bypass-LAN comment=[/ip dhcp-server lease get [find where active-mac-address=$leaseActMAC && active-address=$leaseActIP] host-name];
+} else={
+/queue simple remove $queueName
+}
+
+//GURU
+:local parent [/queue simple find name=GURU]
+:local network "172.16.2.0/24"
+:if ([:len $parent] = 0) do={/queue simple add name=GURU max-limit=100M/100M target="$network" packet-marks=Bypass-LAN}
+:local queueName "Client-$leaseActMAC";
+:if ($leaseBound = "1") do={
+/queue simple add name=$queueName target=($leaseActIP . "/32") limit-at=2M/2M max-limit=4M/4M burst-limit=6M/6M burst-threshold=4M/4M burst-time=8/8 parent=GURU packet-marks=Bypass-LAN comment=[/ip dhcp-server lease get [find where active-mac-address=$leaseActMAC && active-address=$leaseActIP] host-name];
+} else={
+/queue simple remove $queueName
+}
