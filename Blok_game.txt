@@ -13,3 +13,5 @@ add chain=prerouting protocol=udp dst-port=10002,10000-10007 action=add-dst-to-a
 /ip firewall raw
 #BLOK GAME ONLINE
 add chain=prerouting action=drop src-address=172.16.5.0/24 dst-address-list=Game comment="Block Game"
+
+#by Gatech

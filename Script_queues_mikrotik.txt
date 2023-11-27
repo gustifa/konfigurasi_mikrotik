@@ -7,3 +7,28 @@
 } else={
 /queue simple remove $queueName
 }
+
+
+
+
+:local parent [/queue simple find name=LABOR7]
+:local network "172.16.7.0/24"
+:if ([:len $parent] = 0) do={/queue simple add name=LABOR7 max-limit=100M/100M target="$network" packet-marks=Bypass-LAN}
+:local queueName "Client-$leaseActMAC";
+:if ($leaseBound = "1" && $leaseServerName != "all") do={
+/queue simple add name=$queueName target=($leaseActIP . "/32") limit-at=2M/4M max-limit=4M/6M burst-limit=6M/10M burst-threshold=3M/4M burst-time=8/8 parent=LABOR7 packet-marks=Bypass-LAN comment=[/ip dhcp-server lease get [find where active-mac-address=$leaseActMAC && active-address=$leaseActIP] host-name];
+} else={
+/queue simple remove $queueName
+}
+
+
+:local parent [/queue simple find name=LABOR1]
+:local network "10.70.70.0/24"
+:if ([:len $parent] = 0) do={/queue simple add name=LABOR7 max-limit=200M/200M target="$network"}
+:local queueName "Client-$leaseActMAC";
+:if ($leaseBound = "1") do={
+/queue simple add name=$queueName target=($leaseActIP . "/32") limit-at=10M/20M max-limit=20M/30M burst-limit=30M/40M burst-threshold=15M/20M burst-time=8/8 parent=LABOR7 comment=[/ip dhcp-server lease get [find where active-mac-address=$leaseActMAC && active-address=$leaseActIP] host-name];
+} else={
+/queue simple remove $queueName
+}
+
