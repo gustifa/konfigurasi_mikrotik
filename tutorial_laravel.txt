@@ -1,0 +1,2 @@
+# Install PHP 7.2
+git clone https://github.com/php/php-src.git --depth 1 --branch php-7.2.0
